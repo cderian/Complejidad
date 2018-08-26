@@ -1,13 +1,25 @@
+/**
+ * Clase que representa un vértice de una gráfica
+ *
+ * @author cderian
+ *
+ */
 public class Vertice{
 
 	int id;
-	boolean marca;
 
+	/**
+	 * Cosntructor de Vertice
+	 * @param id el id del vértice
+	 */
 	public Vertice(int id){
 		this.id = id;
-		this.marca = false;
 	}
 
+	/**
+	 * Regresa el id del vértice.
+	 * @return el id del vértice.
+	 */
 	public int getId(){
 		return this.id;
 	}
