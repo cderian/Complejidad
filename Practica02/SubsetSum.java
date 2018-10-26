@@ -50,40 +50,29 @@ public class SubsetSum{
 
 			//Obtenemos xi
 			int xi = s[i];
-			System.out.println("\nElemento xi: "+xi);
 
 			//Sumamos xi a nuestro conjunto li-1
 			Set<Integer> lix = sumarEnLista(li_aux, xi);
-			System.out.println("Conjunto Li + xi: " + lix);
 
 			//Mezclamos los conjuntos li-1 y (li-1)+xi
-			System.out.println("MergeLists: (" + li + ", " + lix + ")");
 			li.addAll(lix);
-			System.out.println("Conjunto li: " + li);
 
 			//Eliminamos de li cada elemento que sea mayor a t
 			Set<Integer> lit = removeGreater(li, t);
-			System.out.println("Conjunto li (con elems < t): " + lit);
 
 			//Agregamos li al conjunto L
 			conjuntoL.add(lit);
 		}
 
-		for (Set conjuntos : conjuntoL) {
-			System.out.println(conjuntos);
-		}
+		//Parche
+		conjuntoL.remove(conjuntoL.size()-2);
 
+		//Obteniendo el valor máximo en Ln
 		Set<Integer> ln = conjuntoL.get(conjuntoL.size()-1);
 		Object[] array_ln = ln.toArray();
 		int ss = (int)array_ln[array_ln.length-1];
 		return ss;
 	}
-
-	/*public static Set<Integer> obtenerLi(Set<Integer> lj, int t){
-		Set<Integer> li = new HashSet<Integer>();
-		li = mergeLists(lj, ljx);
-		return removeGreater(li);
-	}*/
 
 	/**
 	 * Dado un conjunto de enteros, elimina cada elemento del conjunto
@@ -132,6 +121,6 @@ public class SubsetSum{
 	 */
 	public static void main(String[] args) {
 		int numeros[] = {1, 4, 5};
-		System.out.println(exactSubsetSum(numeros, 30));
+		System.out.println(exactSubsetSum(numeros, 8));
 	}
 }
