@@ -1,6 +1,7 @@
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 /**
@@ -20,8 +21,10 @@ import java.util.Set;
  */
 public class SubsetSum{
 
+	static ArrayList<Set<Integer>> conjuntoL = new ArrayList<Set<Integer>>();
+
 	/**
-	 * Algoritmo Exact-Subset-Sum
+	 * Algoritmo Aprox-Subset-Sum
 	 *
 	 * Algoritmo de tiempo exponencial que calcula el valor
 	 * óptimo para el problema de optimización de Subset Sum.
@@ -34,9 +37,8 @@ public class SubsetSum{
 	 *
 	 * @return el valor máximo en Ln.
 	 */
-	public static int exactSubsetSum(int[] s, int t){
+	public static int aproxSubsetSum(int[] s, int t, double epsilon){
 		int n = s.length;
-		ArrayList<Set<Integer>> conjuntoL = new ArrayList<Set<Integer>>();
 
 		Set<Integer> l0 = new HashSet<Integer>();
 		l0.add(0);
@@ -46,32 +48,53 @@ public class SubsetSum{
 
 			//Obtenemos el último conjunto li-1 de nuestro conjunto L
 			Set<Integer> li = conjuntoL.get(i);
-			Object[] li_aux = li.toArray();
+			Object[] liArray = li.toArray();
 
 			//Obtenemos xi
 			int xi = s[i];
 
 			//Sumamos xi a nuestro conjunto li-1
-			Set<Integer> lix = sumarEnLista(li_aux, xi);
+			Set<Integer> lix = sumarEnLista(liArray, xi);
 
 			//Mezclamos los conjuntos li-1 y (li-1)+xi
 			li.addAll(lix);
 
+			//trim
+			Set<Integer> lTrim = trim(li, epsilon/(2*n));
+
 			//Eliminamos de li cada elemento que sea mayor a t
-			Set<Integer> lit = removeGreater(li, t);
+			Set<Integer> lit = removeGreater(lTrim, t);
 
 			//Agregamos li al conjunto L
-			conjuntoL.add(lit);
+			if(i == (n-1)) conjuntoL.remove(li);
+			conjuntoL.add(lTrim);
 		}
-
-		//Parche
-		conjuntoL.remove(conjuntoL.size()-2);
 
 		//Obteniendo el valor máximo en Ln
 		Set<Integer> ln = conjuntoL.get(conjuntoL.size()-1);
 		Object[] array_ln = ln.toArray();
 		int ss = (int)array_ln[array_ln.length-1];
 		return ss;
+	}
+
+	/**
+	 * A cada elemento de un conjunto de enteros le suma un número entero.
+	 * S + x = {s + x : x en S}
+	 *
+	 * @param listai el conjunto de números enteros.
+	 * @param xi el número entero que se sumará a cada elemento del conjunto.
+	 * @return el conjunto listai con la suma ya aplicada.
+	 */
+	public static Set<Integer> sumarEnLista(Object[] listai, int xi){
+		Set<Integer> elems = new HashSet<Integer>();
+
+		for (int i = 0; i < listai.length; i++) {
+			int e = (int)listai[i];
+			e+= xi;
+			elems.add(e);
+		}
+
+		return elems;
 	}
 
 	/**
@@ -97,30 +120,31 @@ public class SubsetSum{
 		return elems;
 	}
 
-	/**
-	 * A cada elemento de un conjunto de enteros le suma un número entero.
-	 * S + x = {s + x : x en S}
-	 *
-	 * @param listai el conjunto de números enteros.
-	 * @param xi el número entero que se sumará a cada elemento del conjunto.
-	 * @return el conjunto listai con la suma ya aplicada.
-	 */
-	public static Set<Integer> sumarEnLista(Object[] listai, int xi){
-		Set<Integer> elems = new HashSet<Integer>();
-		for (int i = 0; i < listai.length; i++) {
-			int e = (int)listai[i];
-			e+= xi;
-			elems.add(e);
+	public static Set<Integer> trim(Set<Integer> list, double delta){
+		Object[] l = list.toArray();
+		Arrays.sort(l);
+		int m = l.length;
+
+		Set<Integer> li = new HashSet<Integer>();
+		int yi = (int) l[0];
+		li.add(yi);
+		int last = yi;
+
+		for (int i=1; i<m; i++) {
+			yi = (int) l[i];
+			int k = (int)(last*(1+delta));
+			if( yi > k){
+				li.add(yi);
+				last = yi;
+			}
 		}
 
-		return elems;
+		return li;
+	}
+
+	public static void main(String[] args) {
+		int numeros[] = {104, 102, 201, 101};
+		System.out.println(aproxSubsetSum(numeros, 308, 0.4));
 	}
 	
-	/**
-	 * Método principal
-	 */
-	public static void main(String[] args) {
-		int numeros[] = {1, 4, 5};
-		System.out.println(exactSubsetSum(numeros, 8));
-	}
 }
