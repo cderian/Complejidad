@@ -2,7 +2,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Scanner;
 import java.util.Set;
+import java.util.InputMismatchException;
 
 /**
  * ==========================================================================
@@ -156,26 +158,52 @@ public class SubsetSum{
 	 */
 	public static void main(String[] args) {
 		//Presentación
-		System.out.println("===================================================");
+		System.out.println("\n===================================================");
 		System.out.println("== Programa que resuelve:                        ==");
 		System.out.println("== El Problema de Optimización de Subset Sum     ==");
 		System.out.println("===================================================");
 
-		System.out.println("Ingresa tus datos: ");
-		int numeros[] = {104, 102, 201, 101};
-		int solucion = aproxSubsetSum(numeros, 308, 0.4);
+		//Pidiendo datos al usuario
+		System.out.println("\nIngresa tus datos");
+		Scanner sc = new Scanner(System.in);
+		int[] numeros = new int[0];
+		int t = 0;
+		double e = 0.0;
 
-		//Imprimiendo resultado al usuario
-		String s = "Tu conjunto: {";
-		for (int i = 0; i<numeros.length; i++) {
+		try{
+			System.out.print("Tamaño de tu conjunto: ");
+			int n = sc.nextInt();
+			numeros = new int[n];
+
+			for (int i = 0; i < n; i++) {
+				System.out.print("Elemento "+ (i+1) +": ");
+				int elem = sc.nextInt();
+				numeros[i] = elem;
+			}
+
+			System.out.print("Valor objetivo t: ");
+			t = sc.nextInt();
+			System.out.print("Parámetro de aproximación e: ");
+			e = sc.nextDouble();
+
+			//Procesando información
+			int solucion = aproxSubsetSum(numeros, t, e);
+
+			//Imprimiendo resultado al usuario
+			String s = "\nTu conjunto: {";
 			
-			if(i == (numeros.length-1))
-				s+= numeros[i]+"}";
-			else
-				s+= numeros[i]+", ";
+			for (int i = 0; i<numeros.length; i++) {
+				if(i == (numeros.length-1)) s+= numeros[i]+"}";
+				else s+= numeros[i]+", ";
+			}
+			
+			System.out.println(s);
+			System.out.println("Solución: "+ solucion+"\n");
+
+		}catch(InputMismatchException ex){
+			System.err.println("\n*****ERROR. ENTRADA NO ACEPTADA*****");
+			System.err.println("Ingresaste un valor indebido.\n");
 		}
-		System.out.println(s);
-		System.out.println("Solución: "+ solucion);
 	}
 	
 }
