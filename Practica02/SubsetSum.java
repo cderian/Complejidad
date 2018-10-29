@@ -161,6 +161,7 @@ public class SubsetSum{
 		System.out.println("== El Problema de Optimización de Subset Sum     ==");
 		System.out.println("===================================================");
 
+		System.out.println("Ingresa tus datos: ");
 		int numeros[] = {104, 102, 201, 101};
 		int solucion = aproxSubsetSum(numeros, 308, 0.4);
 
