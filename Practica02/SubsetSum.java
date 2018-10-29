@@ -5,18 +5,18 @@ import java.util.Iterator;
 import java.util.Set;
 
 /**
- * ===================================================
- * == Programa que resuelve:                        ==
- * == El Problema de Optimización de Subset Sum     ==
- * ===================================================
+ * ==========================================================================
+ * == Programa que resuelve:                                               ==
+ * == El Problema de Optimización de Subset Sum                            ==
+ * ==========================================================================
  *
  * Problema de optimización de Subset Sum
  * Dado un par (S, t) donde:
  * 		S = {x1, x2, ..., xn}
  *		t es un entero positivo
  *
- * Deseamos encontrar un subconjunto de S cuya suma
- * sea tan grande como sea posible pero no mayor a t.
+ * Deseamos encontrar un subconjunto de S cuya suma sea tan grande como sea
+ * posible pero no mayor a t.
  *
  */
 public class SubsetSum{
@@ -24,20 +24,21 @@ public class SubsetSum{
 	static ArrayList<Set<Integer>> conjuntoL = new ArrayList<Set<Integer>>();
 
 	/**
-	 * Algoritmo Aprox-Subset-Sum
+	 * Esquema de aproximación en tiempo polinómico para el Problema de SubsetSum.
 	 *
-	 * Algoritmo de tiempo exponencial que calcula el valor
-	 * óptimo para el problema de optimización de Subset Sum.
+	 * Calcula las sumas de todos los subconjuntos de {x1, ..., xi}, utilizando como
+	 * punto de partida las sumas de todos los subconjuntos de {x1, ..., xi-1}.
+	 * Despúes de crear cada subconjunto, lo "recorta", es decir, si dos valores
+	 * están cerca uno del otro, entonces, dado que sólo se requiere una solución
+	 * aproximada, no se necesita mantener ambos explícitamente.
 	 *
-	 * @param s un conjunto de enteros S = {x1, x2, ..., xn}.
+	 * @param s un conjunto de n enteros S = {x1, x2, ..., xn} en orden arbitrario.
 	 * @param t el valor objetivo.
+	 * @param e un parámetro de aproximación.
 	 *
-	 * El algoritmo calcula Li, la lista de sumas de todos los
-	 * subconjuntos de {x1, x2, ..., xn} que no excedan t.
-	 *
-	 * @return el valor máximo en Ln.
+	 * @return z valor que está dentro de un factor 1+e de la solución óptima.
 	 */
-	public static int aproxSubsetSum(int[] s, int t, double epsilon){
+	public static int aproxSubsetSum(int[] s, int t, double e){
 		int n = s.length;
 
 		Set<Integer> l0 = new HashSet<Integer>();
@@ -60,7 +61,7 @@ public class SubsetSum{
 			li.addAll(lix);
 
 			//trim
-			Set<Integer> lTrim = trim(li, epsilon/(2*n));
+			Set<Integer> lTrim = trim(li, e/(2*n));
 
 			//Eliminamos de li cada elemento que sea mayor a t
 			Set<Integer> lit = removeGreater(lTrim, t);
@@ -73,15 +74,15 @@ public class SubsetSum{
 		//Obteniendo el valor máximo en Ln
 		Set<Integer> ln = conjuntoL.get(conjuntoL.size()-1);
 		Object[] array_ln = ln.toArray();
-		int ss = (int)array_ln[array_ln.length-1];
-		return ss;
+		int z = (int)array_ln[array_ln.length-1];
+		return z;
 	}
 
 	/**
 	 * A cada elemento de un conjunto de enteros le suma un número entero.
 	 * S + x = {s + x : x en S}
 	 *
-	 * @param listai el conjunto de números enteros.
+	 * @param listai un conjunto de n enteros S = {s1, s2, ..., sn}
 	 * @param xi el número entero que se sumará a cada elemento del conjunto.
 	 * @return el conjunto listai con la suma ya aplicada.
 	 */
@@ -98,12 +99,42 @@ public class SubsetSum{
 	}
 
 	/**
-	 * Dado un conjunto de enteros, elimina cada elemento del conjunto
-	 * que sea mayor a un número entero t.
+	 * Recorta una lista Li (Li en L) por d. Elimina tantos elementos de Li como sea posible.
+	 * Por cada elemento y que se elimina de L, existe un elemento z en Li que se aproxima
+	 * a una solución óptima.
+	 *
+	 * @param list un conjunto de m enteros L = {y1, y2, ..., ym} en orden creciente.
+	 * @param d parámetro de recorte con 0 < d < 1
+	 * @return un conjunto recortado ordenado.
+	 */
+	public static Set<Integer> trim(Set<Integer> list, double d){
+		Object[] l = list.toArray();
+		Arrays.sort(l);
+		int m = l.length;
+
+		Set<Integer> li = new HashSet<Integer>();
+		int yi = (int) l[0];
+		li.add(yi);
+		int last = yi;
+
+		for (int i=1; i<m; i++) {
+			yi = (int) l[i];
+			int k = (int)(last*(1+d));
+			if( yi > k){
+				li.add(yi);
+				last = yi;
+			}
+		}
+
+		return li;
+	}
+
+	/**
+	 * Dado un conjunto de enteros, elimina cada elemento del conjunto que sea
+	 * mayor a un número entero t.
 	 * @param li el conjunto de enteros.
 	 * @param t el número entero mayor.
-	 * @param un conjunto de enteros donde todos sus elementos son
-	 *		  menores a t.
+	 * @param un conjunto de enteros donde todos sus elementos son menores a t.
 	 */
 	public static Set<Integer> removeGreater(Set<Integer> li, int t){
 		Set<Integer> elems = new HashSet<Integer>();
@@ -120,29 +151,16 @@ public class SubsetSum{
 		return elems;
 	}
 
-	public static Set<Integer> trim(Set<Integer> list, double delta){
-		Object[] l = list.toArray();
-		Arrays.sort(l);
-		int m = l.length;
-
-		Set<Integer> li = new HashSet<Integer>();
-		int yi = (int) l[0];
-		li.add(yi);
-		int last = yi;
-
-		for (int i=1; i<m; i++) {
-			yi = (int) l[i];
-			int k = (int)(last*(1+delta));
-			if( yi > k){
-				li.add(yi);
-				last = yi;
-			}
-		}
-
-		return li;
-	}
-
+	/**
+	 * Método principal
+	 */
 	public static void main(String[] args) {
+		//Presentación
+		System.out.println("===================================================");
+		System.out.println("== Programa que resuelve:                        ==");
+		System.out.println("== El Problema de Optimización de Subset Sum     ==");
+		System.out.println("===================================================");
+
 		int numeros[] = {104, 102, 201, 101};
 		int solucion = aproxSubsetSum(numeros, 308, 0.4);
 
