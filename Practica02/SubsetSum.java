@@ -20,6 +20,8 @@ import java.util.InputMismatchException;
  * Deseamos encontrar un subconjunto de S cuya suma sea tan grande como sea
  * posible pero no mayor a t.
  *
+ * @author cderian
+ *
  */
 public class SubsetSum{
 
