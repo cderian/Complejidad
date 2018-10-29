@@ -144,7 +144,19 @@ public class SubsetSum{
 
 	public static void main(String[] args) {
 		int numeros[] = {104, 102, 201, 101};
-		System.out.println(aproxSubsetSum(numeros, 308, 0.4));
+		int solucion = aproxSubsetSum(numeros, 308, 0.4);
+
+		//Imprimiendo resultado al usuario
+		String s = "Tu conjunto: {";
+		for (int i = 0; i<numeros.length; i++) {
+			
+			if(i == (numeros.length-1))
+				s+= numeros[i]+"}";
+			else
+				s+= numeros[i]+", ";
+		}
+		System.out.println(s);
+		System.out.println("Solución: "+ solucion);
 	}
 	
 }
