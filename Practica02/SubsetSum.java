@@ -70,7 +70,7 @@ public class SubsetSum{
 
 			//Agregamos li al conjunto L
 			if(i == (n-1)) conjuntoL.remove(li);
-			conjuntoL.add(lTrim);
+			conjuntoL.add(lit);
 		}
 
 		//Obteniendo el valor máximo en Ln
