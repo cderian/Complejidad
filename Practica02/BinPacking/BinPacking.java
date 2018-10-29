@@ -30,22 +30,23 @@ public class BinPacking{
 	 */
 	public void firstFit(Elemento[] items){
 		selectionSort(items);
+		Mochila m1 = new Mochila();
+		mochilas.add(m1);
 
 		for (int i=0; i<items.length; i++) {
 			elementos.add(items[i]);
 		}
 
-		while( itElementos.hasNext() ){
-			Elemento e = itElementos.next();
+		for (Elemento e : elementos) {
+			Elemento ei = e;
 
-			while(! e.getEmpaquetado() && itMochilas.hasNext() ){
-				Mochila m = itMochilas.next();
+			for(Mochila m : mochilas){
+				Mochila mi = m;
 
-				if( (m.getCapacidad()-e.getPeso()) >= 0){
+				if( (!e.getEmpaquetado()) && (m.getCapacidad()-e.getPeso()) >= 0){
 					e.setEmpaquetado(true);
 					m.agregarElemento(e);
 				}
-
 			}
 
 			if(!e.getEmpaquetado()){
@@ -84,24 +85,33 @@ public class BinPacking{
         }
     }
 
+    public String toString(){
+    	String s = "Resultado final:\n";
+    	
+    	int ids = 1;
+
+    	for (Mochila m : mochilas) {
+    		s+= m.toString(ids);
+			ids++;
+		}
+
+    	return s;
+    }
+
 	/**
 	 * Método principal
 	 */
 	public static void main(String[] args) {
-		System.out.println("Hola mundo!");
-		//int[] numeros = {3,5,1,2,10,9,8,13,2,2,7};
 
-		/*Elemento m1 = new Elemento(1);
-		Elemento m2 = new Elemento(3);
-		Elemento m3 = new Elemento(5);
-		Elemento m4 = new Elemento(6);
-		Elemento m5 = new Elemento(10);
+		Elemento e1 = new Elemento(1, 10);
+		Elemento e2 = new Elemento(2, 30);
+		Elemento e3 = new Elemento(3, 50);
+		Elemento e4 = new Elemento(4, 60);
+		Elemento e5 = new Elemento(5,100);
+		Elemento[] items = {e1, e2, e3, e4, e5};
 
-		Elemento[] items = {m1, m2, m3, m4, m5};
-		selectionSort(items);
-
-		for (int i=0; i<items.length; i++) {
-			System.out.println("Elemento e"+ (i+1) + ": " + items[i].getPeso());
-		}*/
+		BinPacking bp = new BinPacking();
+		bp.firstFit(items);
+		System.out.println(bp.toString());
 	}
 }

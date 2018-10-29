@@ -6,7 +6,7 @@ public class Mochila{
 	public ArrayList<Elemento> elementos;
 
 	public Mochila(){
-		this.capacidad = 1;
+		this.capacidad = 100;
 		elementos = new ArrayList<Elemento>();
 	}
 
@@ -32,12 +32,12 @@ public class Mochila{
 	}
 
 	public String toString(int id){
-		String s = "Mochila " + id +": ";
+		String s = "Mochila " + id +" (C: " + getCapacidad() + "): ";
 
 		for (Elemento e : elementos) {
 			s+= e.toString() + ", ";
 		}
 
-		return s;
+		return s+"\n";
 	}
 }

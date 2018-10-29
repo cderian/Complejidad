@@ -35,6 +35,6 @@ public class Elemento{
 	}
 
 	public String toString(){
-		return "Elem " + getId();
+		return "Elem " + "(" + getId() + ", " + getPeso() + ", " + getEmpaquetado() + ")";
 	}
 }
