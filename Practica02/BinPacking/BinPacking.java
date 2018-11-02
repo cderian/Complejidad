@@ -5,7 +5,7 @@ import java.util.InputMismatchException;
 /**
  * ==========================================================================
  * == Programa que resuelve:                                               ==
- * == El Problema de Bin Packing
+ * == El Problema de Bin Packing                                           ==
  * ==========================================================================
  *
  * Problema de optimización de Bin Packing
