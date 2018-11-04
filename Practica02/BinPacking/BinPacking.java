@@ -28,7 +28,7 @@ public class BinPacking{
 	 * @param items los elementos que se guardarán en la mochilas.
 	 */
 	public void firstFit(Elemento[] items){
-		selectionSort(items);
+		sort(items);
 		Mochila m1 = new Mochila();
 		mochilas.add(m1);
 
@@ -37,10 +37,7 @@ public class BinPacking{
 		}
 
 		for (Elemento e : elementos) {
-			Elemento ei = e;
-
 			for(Mochila m : mochilas){
-				Mochila mi = m;
 
 				if( (!e.getEmpaquetado()) &&
 					(m.getCapacidad()-e.getPeso()) >= 0){
@@ -64,7 +61,7 @@ public class BinPacking{
      * 
      * @param arreglo el arreglo que será ordenado.
      */
-    private void selectionSort(Elemento[] items) {
+    private void sort(Elemento[] items) {
 
         // Iteramos sobre los elementos del arreglo
         for (int i = 0; i < items.length-1; i++) {
@@ -143,17 +140,5 @@ public class BinPacking{
 			System.err.println("\n*****ERROR. ENTRADA NO ACEPTADA*****");
 			System.err.println("Ingresaste un valor indebido.\n");
 		}
-
-		/*Elemento e1 = new Elemento(1, 85);
-		Elemento e2 = new Elemento(2, 50);
-		Elemento e3 = new Elemento(3, 40);
-		Elemento e4 = new Elemento(4, 40);
-		Elemento e5 = new Elemento(5, 30);
-		Elemento e6 = new Elemento(6, 20);
-		Elemento e7 = new Elemento(7, 20);
-		Elemento e8 = new Elemento(8, 10);
-
-		Elemento[] items = {e1, e2, e3, e4, e5, e6, e7, e8};
-		System.out.println(bp.toString());*/
 	}
 }

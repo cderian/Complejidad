@@ -80,7 +80,7 @@ public class Elemento{
 	 * @return la información del elemento.
 	 */
 	public String toString(){
-		String s = "Elem " + "(" + getId() + ", " + getPeso() + ", " + getEmpaquetado() + ")";
+		String s = "Elem " + getId() + " (P = " + getPeso() + ")";
 		return s;
 	}
 }

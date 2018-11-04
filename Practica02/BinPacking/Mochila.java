@@ -67,10 +67,16 @@ public class Mochila{
 	 * @return la información de la mochila.
 	 */
 	public String toString(int id){
-		String s = "Mochila " + id +" (C: " + getCapacidad() + "): ";
+		String s = "Mochila " + id +" (Capacidad = " + getCapacidad() + "): ";
 
-		for (Elemento e : elementos) {
-			s+= e.toString() + ", ";
+		for(int i = 0; i<elementos.size(); i++){
+			Elemento e = elementos.get(i);
+
+			if(i == elementos.size()-1){
+				s+= e.toString() + ".";
+			}else{
+				s+= e.toString() + ", ";
+			}
 		}
 
 		return s+"\n";
