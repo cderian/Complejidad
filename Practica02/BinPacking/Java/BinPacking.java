@@ -25,6 +25,8 @@ public class BinPacking{
 	ArrayList<Mochila> mochilas = new ArrayList<Mochila>();
 
 	/**
+	 * La estrategia FirstFit coloca un elemento en la primera mochila en el que quepa.
+	 * Si no cabe en una mochila, se crea una nueva mochila.
 	 * @param items los elementos que se guardarán en la mochilas.
 	 */
 	public void firstFit(Elemento[] items){
